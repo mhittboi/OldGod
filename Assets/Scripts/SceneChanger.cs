@@ -5,11 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-	public void Update()
-    {
-		if (Input.GetKeyDown(KeyCode.LeftShift))
-		{
-			SceneManager.LoadScene("Camera");
+	//initialise variables
+
+	//camera check
+	public Nav cameraCheck;
+
+	public void Update(){	
+		if (cameraCheck.unlockCamera == true){
+			if (Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				SceneManager.LoadScene("Camera");
+			}
 		}
 	}
 
