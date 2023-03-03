@@ -19,6 +19,8 @@ public class CameraPOV : MonoBehaviour {
          //Rotate Y view
          yRotate -= Input.GetAxis ("Vertical") * RotationSensitivity * Time.deltaTime;
          yRotate = Mathf.Clamp (yRotate, minAngle, maxAngle);
+
+         //Rotate X view
          xRotate += Input.GetAxis ("Horizontal") * RotationSensitivity * Time.deltaTime;
          xRotate = Mathf.Clamp (xRotate, minAngle, maxAngle);
          transform.eulerAngles = new Vector3 (yRotate, xRotate, 0.0f);

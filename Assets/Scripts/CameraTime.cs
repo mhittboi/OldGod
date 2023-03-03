@@ -8,7 +8,7 @@ public class CameraTime : MonoBehaviour {
     private float timerSeconds;
     private float timerMinutes;
     private float timerHours;
-    private bool updateTimer = true;
+    public bool updateTimer = true;
 
     [SerializeField] Text timerText;
 
