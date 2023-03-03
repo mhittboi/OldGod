@@ -8,21 +8,29 @@ public class CameraPOV : MonoBehaviour {
      public float RotationSensitivity = 35.0f;
      public float minAngle = -45.0f;
      public float maxAngle = 45.0f;
-     
-     //Rotation Value
-     float yRotate = 0.0f;
-     float xRotate = 0.0f;
+
+    //camera
+    public GameObject camera3D;
+
+    //Rotation Value
+    float yRotate = 0.0f;
+    float xRotate = 0.0f;
      
      // Update is called once per frame
-     void Update () {
-         
-         //Rotate Y view
-         yRotate -= Input.GetAxis ("Vertical") * RotationSensitivity * Time.deltaTime;
-         yRotate = Mathf.Clamp (yRotate, minAngle, maxAngle);
+     public void Update ()
+     {
+        //Rotate Y view
+        yRotate -= Input.GetAxis ("Vertical") * RotationSensitivity * Time.deltaTime;
+        yRotate = Mathf.Clamp (yRotate, minAngle, maxAngle);
 
-         //Rotate X view
-         xRotate += Input.GetAxis ("Horizontal") * RotationSensitivity * Time.deltaTime;
-         xRotate = Mathf.Clamp (xRotate, minAngle, maxAngle);
-         transform.eulerAngles = new Vector3 (yRotate, xRotate, 0.0f);
-     }
+        //Rotate X view
+        xRotate += Input.GetAxis ("Horizontal") * RotationSensitivity * Time.deltaTime;
+        xRotate = Mathf.Clamp (xRotate, minAngle, maxAngle);
+
+        Debug.Log("yRotate = " + yRotate);
+        Debug.Log("xRotate = " + xRotate);
+
+        //final update
+        camera3D.transform.rotation = Quaternion.Euler(yRotate, xRotate, 0.0f);
+    }
 }

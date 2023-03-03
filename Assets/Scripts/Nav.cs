@@ -20,6 +20,11 @@ public class Nav : MonoBehaviour
     public Text MilestonesText;
     public GameObject Settings;
     public Text SettingsText;
+    public Text powerdisplayText;
+
+    //milestones
+    private string powerMilestone = "○○○";
+    private string batteryMilestone = "○○○";
 
     //shop unlocks
     public bool unlockMain;
@@ -65,7 +70,7 @@ public class Nav : MonoBehaviour
         unlockCamera = false;
         newbatteryCost = batteryCost;
         newsolarCost = solarCost;
-    }
+}
 
     void Update()
     {
@@ -117,7 +122,7 @@ public class Nav : MonoBehaviour
                             //if player has enough power
                             if (newbatteryCost < modifyPower.power)
                             {
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     modifyPower.batteryCount = modifyPower.batteryCount + 1;
                                     modifyPower.power = modifyPower.power - newbatteryCost;
@@ -128,13 +133,13 @@ public class Nav : MonoBehaviour
                         case ("Power"):
                             break;
                         case ("Milestones"):
-                            MilestonesText.text = "MILESTONES\n--------\n> [IMPROVE POWER GENERATION]";
+                            MilestonesText.text = "MILESTONES\n--------\n> [IMPROVE POWER GENERATION] " + powerMilestone + "\nReach 8/20/32 Power/Second\n\n[IMPROVE POWER CAPACITY] " + batteryMilestone + "\nObtain 5/15/25 Batteries";
                             break;
                         case ("Settings"):
                             if (visualEffects)
                             {
                                 SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [ENABLED]";
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     visualEffects = false;
                                     pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0f);
@@ -144,7 +149,7 @@ public class Nav : MonoBehaviour
                             else
                             {
                                 SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [DISABLED]";
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     visualEffects = true;
                                     pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0.004f);
@@ -155,22 +160,56 @@ public class Nav : MonoBehaviour
                     }
                     break;
                 case (0, 1):
-                    UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n> [FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n[UNLOCK] Milestones\n[UNLOCK] Power Details\n[UNLOCK] Camera";
-                    if (newsolarCost < modifyPower.power)
+                    navText.text = "[UPGRADES]\n[POWER]\n[MILESTONES]\n[SETTINGS]";
+                    switch (selectedMenu)
                     {
-                        if (Input.GetKeyDown("e"))
-                        {
-                            modifyPower.solarCount = modifyPower.solarCount + 1;
-                            modifyPower.power = modifyPower.power - newsolarCost;
-                            newsolarCost = Mathf.Round((solarCost * Mathf.Pow(1 + growthrate, modifyPower.solarCount))* 10) / 10f;
-                        }
+                        case ("Upgrades"):
+                            UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n> [FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n[UNLOCK] Milestones\n[UNLOCK] Power Details\n[UNLOCK] Camera";
+                            if (newsolarCost < modifyPower.power)
+                            {
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
+                                {
+                                    modifyPower.solarCount = modifyPower.solarCount + 1;
+                                    modifyPower.power = modifyPower.power - newsolarCost;
+                                    newsolarCost = Mathf.Round((solarCost * Mathf.Pow(1 + growthrate, modifyPower.solarCount)) * 10) / 10f;
+                                }
+                            }
+                            break;
+                        case ("Power"):
+                            break;
+                        case ("Milestones"):
+                            MilestonesText.text = "MILESTONES\n--------\n[IMPROVE POWER GENERATION] " + powerMilestone + "\nReach 8/20/32 Power/Second\n\n> [IMPROVE POWER CAPACITY] " + batteryMilestone + "\nObtain 5/15/25 Batteries";
+                            break;
+                        case ("Settings"):
+                            if (visualEffects)
+                            {
+                                SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [ENABLED]";
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
+                                {
+                                    visualEffects = false;
+                                    pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0f);
+                                    scanlines.color = new Color(scanlines.color.r, scanlines.color.g, scanlines.color.b, 0f);
+                                }
+                            }
+                            else
+                            {
+                                SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [DISABLED]";
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
+                                {
+                                    visualEffects = true;
+                                    pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0.004f);
+                                    scanlines.color = new Color(scanlines.color.r, scanlines.color.g, scanlines.color.b, 0.004f);
+                                }
+                            }
+                            break;
                     }
+                    break;
                     break;
                 case (0, 2):
                     UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n[FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n> [UNLOCK] Milestones\n[UNLOCK] Power Details\n[UNLOCK] Camera";
                     if (milestonesCost < modifyPower.power && !unlockMilestones)
                     {
-                        if (Input.GetKeyDown("e"))
+                        if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                         {
                             unlockMilestones = true;
                             modifyPower.power = modifyPower.power - milestonesCost;
@@ -181,7 +220,7 @@ public class Nav : MonoBehaviour
                     UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n[FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n[UNLOCK] Milestones\n> [UNLOCK] Power Details\n[UNLOCK] Camera";
                     if (powerCost < modifyPower.power && !unlockPower)
                     {
-                        if (Input.GetKeyDown("e"))
+                        if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                         {
                             unlockPower = true;
                             modifyPower.power = modifyPower.power - powerCost;
@@ -192,7 +231,7 @@ public class Nav : MonoBehaviour
                     UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n[FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n[UNLOCK] Milestones\n[UNLOCK] Power Details\n> [UNLOCK] Camera";
                     if (cameraCost < modifyPower.power && !unlockCamera)
                     {
-                        if (Input.GetKeyDown("e"))
+                        if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                         {
                             unlockCamera = true;
                             modifyPower.power = modifyPower.power - cameraCost;
@@ -203,8 +242,8 @@ public class Nav : MonoBehaviour
                     navText.text = "> [UPGRADES]\n[POWER]\n[MILESTONES]\n[SETTINGS]";
                     selectedMenu = "Upgrades";
                     UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n[FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n[UNLOCK] Milestones\n[UNLOCK] Power Details\n[UNLOCK] Camera";
-                    PowerMenuText.text = "POWER\n--------\nYou are currently generating ??? power per second.\n\nDetailed Breakdown:\n\n> " + (modifyPower.powerRate - 0.1f) + " comes from Solar Panels\n> 0.1 comes from Σ♦˧∀∀×»≤";
-                    MilestonesText.text = "MILESTONES\n--------\n[IMPROVE POWER GENERATION]";
+                    PowerMenuText.text = "POWER\n--------\nYou are currently generating " + modifyPower.powerRate + " power per second.\n\nDetailed Breakdown:\n\n> " + (modifyPower.powerRate - 0.1f) + " comes from Solar Panels\n> 0.1 comes from Σ♦˧∀∀×»≤";
+                    MilestonesText.text = "MILESTONES\n--------\n[IMPROVE POWER GENERATION] " + powerMilestone + "\nReach 8/20/32 Power/Second\n\n[IMPROVE POWER CAPACITY] " + batteryMilestone + "\nObtain 5/15/25 Batteries";
                     SettingsText.text = "SETTINGS\n--------\nToggle Overlay [ENABLED]";
                     UpgradesMenu.SetActive(true);
                     PowerMenu.SetActive(false);
@@ -259,7 +298,7 @@ public class Nav : MonoBehaviour
                             //if player has enough power
                             if (newbatteryCost < modifyPower.power)
                             {
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     modifyPower.batteryCount = modifyPower.batteryCount + 1;
                                     modifyPower.power = modifyPower.power - newbatteryCost;
@@ -271,7 +310,7 @@ public class Nav : MonoBehaviour
                             if (visualEffects)
                             {
                                 SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [ENABLED]";
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     visualEffects = false;
                                     pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0f);
@@ -281,7 +320,7 @@ public class Nav : MonoBehaviour
                             else
                             {
                                 SettingsText.text = "SETTINGS\n--------\n> Toggle Overlays [DISABLED]";
-                                if (Input.GetKeyDown("e"))
+                                if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                                 {
                                     visualEffects = true;
                                     pixelation.color = new Color(pixelation.color.r, pixelation.color.g, pixelation.color.b, 0.004f);
@@ -296,7 +335,7 @@ public class Nav : MonoBehaviour
                     //if player has enough power
                     if (newsolarCost < modifyPower.power)
                     {
-                        if (Input.GetKeyDown("e"))
+                        if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                         {
                             modifyPower.solarCount = modifyPower.solarCount + 1;
                             modifyPower.power = modifyPower.power - newsolarCost;
@@ -308,7 +347,7 @@ public class Nav : MonoBehaviour
                     UpgradesMenuText.text = "UPGRADES\n--------\n[FABRICATE] Battery | Currently own " + modifyPower.batteryCount + "\n[FABRICATE] Solar Panel | Currently own " + modifyPower.solarCount + "\n> [LEAVE LOW POWER MODE]";
                     if (mainCost < modifyPower.power && !unlockMain)
                     {
-                        if (Input.GetKeyDown("e"))
+                        if (Input.GetKeyDown("e") || Input.GetKeyDown("joystick button 0"))
                         {
                             //update variables
                             modifyPower.power = modifyPower.power - mainCost;
@@ -332,6 +371,7 @@ public class Nav : MonoBehaviour
                             SettingsText.color = new Color(1f, 1f, 1f); // sets the color of settingsText to white
                             MilestonesText.color = new Color(1f, 1f, 1f); // sets the color of MilestonesText to white
                             PowerMenuText.color = new Color(1f, 1f, 1f); // sets the color of PowerMenuText to white
+                            powerdisplayText.color = new Color(1, 1f, 1f); // sets the color of navText to white
                         }
                     }
                     break;
@@ -350,8 +390,34 @@ public class Nav : MonoBehaviour
                     Settings.SetActive(true);
                     break;
             }
-    }
 
-    //Debug.Log("selectionX = " + selectionX);
-    //Debug.Log("selectionY = " + selectionY);
+        // all of the milestones you can reach
+        // im so sorry if you're a living person reading this. i dont mean to be like this :)
+        if (modifyPower.batteryCount >= 5 && batteryMilestone == "○○○")
+        {
+            batteryMilestone = "●○○";
+        }
+        if (modifyPower.batteryCount >= 15 && batteryMilestone == "●○○")
+        {
+            batteryMilestone = "●●○";
+        }
+        if (modifyPower.batteryCount >= 25 && batteryMilestone == "●●○")
+        {
+            batteryMilestone = "●●●";
+        }
+
+        if (modifyPower.solarCount >= 8 && powerMilestone == "○○○")
+        {
+            powerMilestone = "●○○";
+        }
+        if (modifyPower.solarCount >= 20 && powerMilestone == "●○○")
+        {
+            powerMilestone = "●●○";
+        }
+        if (modifyPower.solarCount >= 32 && powerMilestone == "●●○")
+        {
+            powerMilestone = "●●●";
+        }
+
+    }
 }

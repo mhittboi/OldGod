@@ -9,18 +9,16 @@ public class StartAnimation : MonoBehaviour
 
     public void Start()
     {
-        Debug.Log("start hee hoo");
         StartCoroutine(FadeBlackOutSquare());
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        bool introDone = false;
+
+        if (Input.anyKey && introDone == false)
         {
-            StartCoroutine(FadeBlackOutSquare());
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
+            introDone = true;
             StartCoroutine(FadeBlackOutSquare(false));
         }
     }

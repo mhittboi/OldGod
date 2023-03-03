@@ -18,7 +18,7 @@ public class CameraTime : MonoBehaviour {
 
     void Update() {
         // update timer only if currently unlocked
-        if (updateTimer = true) {
+        if (updateTimer == true) {
             timerCalculation ();
         }
     }

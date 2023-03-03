@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameMenu.unity
     guid: 6816a66298686394993e44a9cd33b8e4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Camera.unity
     guid: 74ca1a80d85a18b489de56a40bb42d41
   m_configObjects: {}

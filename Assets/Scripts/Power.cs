@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Power : MonoBehaviour
 {
     // initialise variables
     public float power = 0f;
     public float powerRate;
-    private float powerMax = 100f;
+    public float powerMax = 100f;
     public int batteryCount = 1;
     public float batteryCapacity = 100f;
     public int solarCount = 0;
@@ -21,7 +22,6 @@ public class Power : MonoBehaviour
     public Nav navPrices;
 
     //variables for changing battery fullness sprite
-    //idk fix it bb!
 
     void Start()
     {
@@ -150,27 +150,27 @@ public class Power : MonoBehaviour
         //use percentage to determine displayed ui battery sprite
         if (percentFull >= 1f)
         {
-            Debug.Log("Full Sprite");
+            //Debug.Log("Full Sprite");
         }
         else if (percentFull >= 0.8f)
         {
-            Debug.Log("80+ Sprite");
+            //Debug.Log("80+ Sprite");
         }
         else if (percentFull >= 0.6f)
         {
-            Debug.Log("60+ Sprite");
+            //Debug.Log("60+ Sprite");
         }
         else if (percentFull >= 0.4f)
         {
-            Debug.Log("40+ Sprite");
+            //Debug.Log("40+ Sprite");
         }
         else if (percentFull >= 0.2f)
         {
-            Debug.Log("20+ Sprite");
+            //Debug.Log("20+ Sprite");
         }
         else
         {
-            Debug.Log("Empty");
+            //Debug.Log("Empty");
         }
     }
 

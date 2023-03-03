@@ -21,30 +21,25 @@ public class CameraChanger : MonoBehaviour
 
     void Update()
     {
-        if (isCam == true)
+        if (cameraCheck.unlockCamera)
         {
-            Debug.Log("2D Cam");
-        }
-        else
-        {
-            Debug.Log("3D Cam");
-        }
-
-        if (isCam == true)
-        {
-            if (cameraCheck.unlockCamera)
+            if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown("joystick button 3"))
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
+                if (isCam == true)
                 {
+                    Debug.Log("2D Camera");
+                    camera3D.SetActive(true);
+                    camera2D.SetActive(false);
                     isCam = false;
                 }
-            }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                isCam = true;
+                else
+                {
+                    Debug.Log("3D Camera");
+                    camera2D.SetActive(true);
+                    camera3D.SetActive(false);
+                    isCam = true;
+                }
+
             }
         }
     }
